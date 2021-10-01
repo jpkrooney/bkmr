@@ -14,7 +14,14 @@ makeKpart <- function(r, Z1, Z2 = NULL) {
 }
 makeVcomps <- function(r, lambda, Z, data.comps) {
   if (is.null(data.comps$knots)) {
-    Kpart <- makeKpart(r, Z)
+    
+    julia_assign("r", r)
+    julia_assign("Z", Z)
+    #julia_assign("r", structure(r, class = "JuliaFloat32"))
+    #julia_assign("Z", structure(Z, class = "JuliaFloat32"))
+    Kpart <- julia_eval("makeKpart(r, Z)", "R")
+    
+    #Kpart <- makeKpart(r, Z)
     V <- diag(1, nrow(Z), nrow(Z)) + lambda[1]*exp(-Kpart)
     if (data.comps$nlambda == 2) {
       V <- V + lambda[2]*data.comps$crossTT
