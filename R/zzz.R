@@ -10,7 +10,7 @@ release_questions <- function() {
 
 .onLoad <- function(libname, pkgname) {
   julia_setup(installJulia=TRUE)
-  #julia_setup(JULIA_HOME = "/Applications/Julia-1.6.app/Contents/Resources/julia/bin/")
+  #julia_setup(JULIA_HOME = "/Applications/Julia-1.6.3.app/Contents/Resources/julia/bin/")
   
   julia_install_package_if_needed("Tullio")
   julia_install_package_if_needed("LoopVectorization")

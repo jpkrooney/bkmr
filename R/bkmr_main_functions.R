@@ -5,7 +5,7 @@
 makeKpart <- function(r, Z1, Z2 = NULL) {
   Z1r <- t(t(Z1) * c(sqrt(r)))
   if (is.null(Z2)) {
-    Kpart <- fields::rdist(Z1r)^2
+    Kpart <- fields::rdist(Z1r)^2 # Rfast::Dist(Z1r, square = TRUE)
   } else {
     Z2r <- t(t(Z2) * c(sqrt(r)))
     Kpart <- fields::rdist(Z1r, Z2r)^2
@@ -15,10 +15,10 @@ makeKpart <- function(r, Z1, Z2 = NULL) {
 makeVcomps <- function(r, lambda, Z, data.comps) {
   if (is.null(data.comps$knots)) {
     
-    julia_assign("r", r)
-    julia_assign("Z", Z)
-    #julia_assign("r", structure(r, class = "JuliaFloat32"))
-    #julia_assign("Z", structure(Z, class = "JuliaFloat32"))
+    #julia_assign("r", r)
+    #julia_assign("Z", Z)
+    julia_assign("r", structure(r, class = "JuliaFloat32"))
+    julia_assign("Z", structure(Z, class = "JuliaFloat32"))
     Kpart <- julia_eval("makeKpart(r, Z)", "R")
     
     #Kpart <- makeKpart(r, Z)
